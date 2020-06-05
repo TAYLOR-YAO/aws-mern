@@ -140,7 +140,6 @@ exports.authMiddleware = (req, res, next) => {
     next();
   });
 };
-
 exports.adminMiddleware = (req, res, next) => {
   const adminUserId = req.user._id;
   User.findOne({ _id: adminUserId }).exec((err, user) => {
@@ -153,6 +152,44 @@ exports.adminMiddleware = (req, res, next) => {
     if (user.role !== "admin") {
       return res.status(400).json({
         error: "Admin resource. Access refusé contactez votre administrateur",
+      });
+    }
+    req.profile = user;
+    next();
+  });
+};
+
+exports.businessMiddleware = (req, res, next) => {
+  const businessUserId = req.user._id;
+  User.findOne({ _id: businessUserId }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "Utilisateur non trouvé",
+      });
+    }
+
+    if (!(user.role == "admin" || user.role == "seller")) {
+      return res.status(400).json({
+        error:
+          "Business resource. Access refusé contactez votre administrateur",
+      });
+    }
+    req.profile = user;
+    next();
+  });
+};
+
+exports.sellerMiddleware = (req, res, next) => {
+  const sellerUserId = req.user._id;
+  User.findOne({ _id: sellerUserId }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "Utilisateur non trouvé",
+      });
+    }
+    if (user.role !== "seller") {
+      return res.status(400).json({
+        error: "Vendeur. Access refusé contactez votre administrateur",
       });
     }
     req.profile = user;

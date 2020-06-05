@@ -41,7 +41,7 @@ exports.uploadImage = (req, res) => {
     }
     data.url = result.Location;
     data.key = result.Key;
-    console.log("DATA: ", data);
+    // console.log("DATA: ", data);
     res.status(200).send(data);
   });
 };

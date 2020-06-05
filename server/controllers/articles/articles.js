@@ -42,6 +42,8 @@ exports.create = (req, res) => {
     qty,
     deal,
   });
+  newArticle.postePar = req.user._id;
+
   //   save to db
   newArticle.save((err, success) => {
     if (err) {
@@ -56,19 +58,83 @@ exports.create = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  Article.find({}).exec((err, data) => {
-    if (err) {
-      return res.status(400).json({
-        error: "Articles non trove",
-      });
-    }
-    res.json(data);
-  });
+  Article.find({})
+    .populate("postePar")
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Articles non trove",
+        });
+      }
+      // console.log(data[0]);
+      res.json(data);
+    });
 };
 
-exports.read = (req, res) => {
-  //
-};
+exports.read = (req, res) => {};
+
+// exports.read = (req, res) => {
+// const { slug } = req.params;
+// let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+// let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+//
+// Article.findOne({ slug })
+// .populate('postedBy', '_id name username')
+// .exec((err, category) => {
+// if (err) {
+// return res.status(400).json({
+// error: 'Could not load category'
+// });
+// }
+// res.json(category);
+// Link.find({ categories: category })
+// .populate('postedBy', '_id name username')
+// .populate('categories', 'name')
+// .sort({ createdAt: -1 })
+// .limit(limit)
+// .skip(skip)
+// .exec((err, links) => {
+// if (err) {
+// return res.status(400).json({
+// error: 'Could not load links of a category'
+// });
+// }
+// res.json({ category, links });
+// });
+// });
+// };
+
+// exports.read = (req, res) => {
+// const { slug } = req.params;
+// let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+// let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+//
+// Category.findOne({ slug })
+// .populate('postedBy', '_id name username')
+// .exec((err, category) => {
+// if (err) {
+// return res.status(400).json({
+// error: 'Could not load category'
+// });
+// }
+// res.json(category);
+// Link.find({ categories: category })
+// .populate('postedBy', '_id name username')
+// .populate('categories', 'name')
+// .sort({ createdAt: -1 })
+// .limit(limit)
+// .skip(skip)
+// .exec((err, links) => {
+// if (err) {
+// return res.status(400).json({
+// error: 'Could not load links of a category'
+// });
+// }
+// res.json({ category, links });
+// });
+// });
+// };
+//
 
 exports.update = (req, res) => {
   //

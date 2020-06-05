@@ -14,6 +14,7 @@ const { runValidation } = require("../../validators");
 const {
   requireSignin,
   adminMiddleware,
+  businessMiddleware,
 } = require("../../controllers/auth/auth");
 const {
   create,
@@ -26,12 +27,20 @@ const { uploadImage } = require("../../controllers/uploads/article-images");
 // routes
 // router.post('/article' ,create);
 // router.post('/article' , requireSignin, adminMiddleware, create);
+// router.post(
+//   "/article",
+//   articleCreateValidator,
+//   runValidation,
+//   requireSignin,
+//   adminMiddleware,
+//   create
+// );
 router.post(
   "/article",
   articleCreateValidator,
   runValidation,
   requireSignin,
-  adminMiddleware,
+  businessMiddleware,
   create
 );
 router.get("/articles", list);

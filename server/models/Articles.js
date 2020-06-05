@@ -81,6 +81,7 @@ const articlesSchema = new mongoose.Schema(
     },
     postePar: {
       type: ObjectId,
+      required: true,
       ref: "User",
     },
   },
