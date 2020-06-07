@@ -84,6 +84,18 @@ const articlesSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
+    autorizedToSell: {
+      type: Boolean,
+      default: true,
+    },
+    subsciptionTyle: {
+      type: String,
+      default: "reguler",
+    },
+    partner: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
