@@ -7,6 +7,8 @@ const {
   authMiddleware,
   adminMiddleware,
   sellerMiddleware,
+  readUser,
+  updateRole,
 } = require("../../controllers/auth/auth");
 
 // import controllers
@@ -17,5 +19,6 @@ router.get("/user", requireSignin, authMiddleware, read);
 // router.get('/admin', adminMiddleware, read);
 router.get("/admin", requireSignin, adminMiddleware, read);
 router.get("/seller", requireSignin, sellerMiddleware, read);
-
+router.post("/read/user", readUser);
+router.put("/user/:role", requireSignin, adminMiddleware, updateRole);
 module.exports = router;

@@ -287,3 +287,37 @@ exports.resetPassword = (req, res) => {
     );
   }
 };
+exports.readUser = (req, res) => {
+  const { email } = req.body;
+  User.findOne({ email }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "Utilisateur non trouvé",
+      });
+    }
+
+    res.json({
+      data: user,
+    });
+  });
+};
+
+exports.updateRole = (req, res) => {
+  const { role } = req.params;
+  const { email } = req.body;
+  User.findOneAndUpdate(
+    { email },
+    {
+      role,
+    },
+    { new: true }
+  ).exec((err, updated) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Role assigné avec succès!",
+      });
+    }
+    // console.log("UPDATED", updated);
+    res.json(updated);
+  });
+};

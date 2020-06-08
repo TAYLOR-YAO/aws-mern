@@ -45,14 +45,23 @@ router.post(
 );
 router.get("/articles", list);
 router.get("/article/:slug", read);
+// router.put(
+//   "/article/:slug",
+//   articleUpdateValidator,
+//   runValidation,
+//   requireSignin,
+//   adminMiddleware,
+//   create
+// );
 router.put(
   "/article/:slug",
   articleUpdateValidator,
   runValidation,
   requireSignin,
   adminMiddleware,
-  create
+  update
 );
+
 router.delete("/article/:slug", requireSignin, adminMiddleware, remove);
 
 // Image Upload Route

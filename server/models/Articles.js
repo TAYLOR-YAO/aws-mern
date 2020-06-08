@@ -67,9 +67,9 @@ const articlesSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    rapportSocial: {
+    brand: {
       type: String,
-      required: true,
+      default: "N/A",
     },
     qty: {
       type: Number,

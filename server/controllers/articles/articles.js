@@ -19,7 +19,7 @@ exports.create = (req, res) => {
     prix,
     region,
     categorie,
-    rapportSocial,
+    brand,
     qty,
     deal,
     ville,
@@ -37,7 +37,7 @@ exports.create = (req, res) => {
     ville,
     quartier,
     categorie,
-    rapportSocial,
+    brand,
     qty,
     deal,
   });
@@ -70,7 +70,19 @@ exports.list = (req, res) => {
     });
 };
 
-exports.read = (req, res) => {};
+exports.read = (req, res) => {
+  const { slug } = req.params;
+  Article.findOne({ slug })
+    .populate("postePar")
+    .exec((err, article) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Could not load category",
+        });
+      }
+      res.json(article);
+    });
+};
 
 // exports.read = (req, res) => {
 // const { slug } = req.params;
@@ -105,7 +117,6 @@ exports.read = (req, res) => {};
 
 exports.update = (req, res) => {
   const { slug } = req.params;
-  const { updatedArticle } = req.body;
   const {
     nomUnique,
     descriptions,
@@ -116,10 +127,10 @@ exports.update = (req, res) => {
     ville,
     quartier,
     categorie,
-    rapportSocial,
+    brand,
     qty,
     deal,
-  } = updatedArticle;
+  } = req.body;
 
   Article.findOneAndUpdate(
     { slug },
@@ -133,7 +144,7 @@ exports.update = (req, res) => {
       ville,
       quartier,
       categorie,
-      rapportSocial,
+      brand,
       qty,
       deal,
     },
